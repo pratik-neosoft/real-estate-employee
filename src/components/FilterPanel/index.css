@@ -1,0 +1,12 @@
+.filter-container{
+    margin-bottom: 8px;
+}
+
+.filter-form .ant-form-item-row {
+  display: flex;
+  flex-direction: column;
+}
+
+.filter-form .ant-form-item-label {
+  display: flex;
+}
