@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { parseUrlToJson } from "../../helper/helper";
-import moment from "moment";
 const columns = [
   {
     title: "Log ID",
