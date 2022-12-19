@@ -10,3 +10,21 @@
 .ant-table-column-sorter {
   display: none;
 }
+
+.ant-pagination .ant-pagination-item a {
+  color: #69747d;
+  border: none;
+}
+
+.ant-pagination .ant-pagination-item-active {
+  background-color: #ecf0f8;
+  border: none;
+}
+
+.ant-pagination .ant-pagination-item-active a {
+  color: #303941;
+}
+
+.ant-divider-horizontal {
+  margin: 12px 0;
+}
