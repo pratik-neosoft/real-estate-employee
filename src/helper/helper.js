@@ -1,3 +1,4 @@
+import qs from 'qs'
 export const getFilterOption = (data, key) => {
   const tempArr = [];
   const Options = [];
@@ -9,3 +10,7 @@ export const getFilterOption = (data, key) => {
   tempArr.map((item) => item && Options.push({ label: item, value: item }));
   return Options;
 };
+
+export const parseUrlToJson = query => {
+  return qs.parse(decodeURI(query).substring(1))
+}

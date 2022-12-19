@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Table } from "antd";
+import { parseUrlToJson } from "../../helper/helper";
+import moment from "moment";
 const columns = [
   {
     title: "Log ID",
@@ -61,11 +63,73 @@ const onChange = (pagination, filters, sorter, extra) => {
 };
 
 export default function EmployeLogs(props) {
-  const { data } = props;
+  const { data, queryParams } = props;
+  const [employeeData, setEmployeeData] = useState(data.auditLog);
+
+  useEffect(() => {
+    setEmployeeData(data.auditLog);
+    const query = parseUrlToJson(queryParams);
+    if (query.employee_name) {
+      setEmployeeData((prevData) => {
+        return prevData.filter((item) =>
+          item.logId.toString().includes(query.employee_name)
+        );
+      });
+    }
+    if (query.action_type) {
+      setEmployeeData((prevData) => {
+        return prevData.filter((item) =>
+          item.actionType.includes(query.action_type)
+        );
+      });
+    }
+    if (query.application_type) {
+      setEmployeeData((prevData) => {
+        return prevData.filter((item) =>
+          item.applicationType?.includes(query.application_type)
+        );
+      });
+    }
+    if (query.application_id) {
+      setEmployeeData((prevData) => {
+        return prevData.filter((item) =>
+          item.applicationId?.toString().includes(query.application_id)
+        );
+      });
+    }
+    if (query.from_date && query.to_date) {
+      setEmployeeData((prevData) =>
+        prevData.filter(
+          (item) =>
+            new Date(item.creationTimestamp).getTime() >=
+              new Date(query.from_date).getTime() &&
+            new Date(item.creationTimestamp).getTime() <=
+              new Date(query.to_date).getTime()
+        )
+      );
+    } else if (query.from_date) {
+      setEmployeeData((prevData) =>
+        prevData.filter(
+          (item) =>
+            new Date(item.creationTimestamp).getTime() >=
+            new Date(query.from_date).getTime()
+        )
+      );
+    } else if (query.to_date) {
+      setEmployeeData((prevData) =>
+        prevData.filter(
+          (item) =>
+            new Date(item.creationTimestamp).getTime() <=
+            new Date(query.to_date).getTime()
+        )
+      );
+    }
+  }, [data, queryParams]);
+
   return (
     <Table
       columns={columns}
-      dataSource={data.auditLog}
+      dataSource={employeeData}
       onChange={onChange}
       pagination={{
         position: ["bottomCenter"],
