@@ -29,9 +29,6 @@ export default function FilterPanel({ data, queryParams }) {
   const [form] = Form.useForm();
   const ActionTypes = getFilterOption(data, "actionType");
   const ApplicationTypes = getFilterOption(data, "applicationType");
-  const [searchParams, setsearchParams] = useState(
-    handleInitialValue(queryParams)
-  );
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -71,7 +68,7 @@ export default function FilterPanel({ data, queryParams }) {
       <Form
         form={form}
         layout="inline"
-        initialValues={searchParams}
+        initialValues={handleInitialValue(queryParams)}
         colon={false}
         onFinish={onFinish}
       >
