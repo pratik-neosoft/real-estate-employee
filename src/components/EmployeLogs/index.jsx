@@ -1,22 +1,69 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 import { parseUrlToJson } from "../../helper/helper";
+import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
+import moment from "moment";
+import "./index.css";
+
+const TableHeaderColumn = (sortColumns, title, dataIndex) => {
+  const sortedColumn = sortColumns?.find(
+    ({ order }) => order === "ascend" || order === "descend"
+  );
+  return (
+    <span>
+      {title}
+      {sortedColumn && sortedColumn?.column?.dataIndex === dataIndex ? (
+        sortedColumn.order === "ascend" ? (
+          <span className="sort-icon">
+            <ArrowUpOutlined />
+          </span>
+        ) : (
+          <span className="sort-icon">
+            <ArrowDownOutlined />
+          </span>
+        )
+      ) : null}
+    </span>
+  );
+};
+
 const columns = [
   {
-    title: "Log ID",
     dataIndex: "logId",
-    // sorter: (a, b) => a.name.length - b.name.length,
-    // sortDirections: ["descend"],
+    sorter: (a, b) => a.logId - b.logId,
+    title: ({ sortColumns }) =>
+      TableHeaderColumn(sortColumns, "Log ID", "logId"),
+    width: "15%",
   },
   {
-    title: "Application Type",
+    title: ({ sortColumns }) =>
+      TableHeaderColumn(sortColumns, "Application Type", "applicationType"),
     dataIndex: "applicationType",
-    // defaultSortOrder: "descend",
-    // sorter: (a, b) => a.age - b.age,
+    render: (_, record) => (
+      <div>
+        {record.applicationType ? (
+          <span>{record.applicationType}</span>
+        ) : (
+          <span style={{ color: "#a5a5a5" }}>-/-</span>
+        )}
+      </div>
+    ),
+    sorter: (a, b) => {
+      if (a?.applicationType && b?.applicationType) {
+        return a.applicationType.localeCompare(b.applicationType);
+      } else if (a?.applicationType) {
+        return -1;
+      } else if (b?.applicationType) {
+        return 1;
+      }
+      return 0;
+    },
+    width: "20%",
   },
   {
-    title: "Application ID",
-    dataIndex: "applicationID",
+    title: ({ sortColumns }) =>
+      TableHeaderColumn(sortColumns, "Application ID", "applicationId"),
+    dataIndex: "applicationId",
     render: (_, record) => (
       <div>
         {record.applicationId ? (
@@ -26,17 +73,37 @@ const columns = [
         )}
       </div>
     ),
-    // defaultSortOrder: "descend",
-    // sorter: (a, b) => a.age - b.age,
+    sorter: (a, b) => {
+      if (a?.applicationId && b?.applicationId) {
+        return a.applicationId - b.applicationId;
+      } else if (a?.applicationId) {
+        return -1;
+      } else if (b?.applicationId) {
+        return 1;
+      }
+      return 0;
+    },
+    width: "15%",
   },
   {
-    title: "Action",
+    title: ({ sortColumns }) =>
+      TableHeaderColumn(sortColumns, "Action", "actionType"),
     dataIndex: "actionType",
-    // sorter: (a, b) => a.name.length - b.name.length,
-    // sortDirections: ["descend"],
+    sorter: (a, b) => {
+      if (a?.actionType && b?.actionType) {
+        return a.actionType.localeCompare(b.actionType);
+      } else if (a?.actionType) {
+        return -1;
+      } else if (b?.actionType) {
+        return 1;
+      }
+      return 0;
+    },
+    width: "20%",
   },
   {
-    title: "Action Details",
+    title: ({ sortColumns }) =>
+      TableHeaderColumn(sortColumns, "Action Details", "actionDetails"),
     dataIndex: "actionDetails",
     render: (_, record) => (
       <div>
@@ -47,19 +114,30 @@ const columns = [
         )}
       </div>
     ),
+    sorter: (a, b) => {
+      if (a?.actionDetails && b?.actionDetails) {
+        return a.actionDetails.localeCompare(b.actionDetails);
+      } else if (a?.actionDetails) {
+        return -1;
+      } else if (b?.actionDetails) {
+        return 1;
+      }
+      return 0;
+    },
+    width: "15%",
   },
   {
-    title: "Date: Time",
+    title: ({ sortColumns }) =>
+      TableHeaderColumn(sortColumns, "Date: Time", "creationTimestamp"),
     dataIndex: "creationTimestamp",
     render: (_, record) => (
       <div>{record.creationTimestamp.replace(" ", " / ")}</div>
     ),
+    sorter: (a, b) =>
+      moment(a.creationTimestamp).unix() - moment(b.creationTimestamp).unix(),
+    width: "15%",
   },
 ];
-
-const onChange = (pagination, filters, sorter, extra) => {
-  console.log("params", pagination, filters, sorter, extra);
-};
 
 export default function EmployeLogs(props) {
   const { data, queryParams } = props;
@@ -129,7 +207,6 @@ export default function EmployeLogs(props) {
     <Table
       columns={columns}
       dataSource={employeeData}
-      onChange={onChange}
       pagination={{
         position: ["bottomCenter"],
         showSizeChanger: false,

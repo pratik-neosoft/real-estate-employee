@@ -1,0 +1,12 @@
+.sort-icon {
+  padding: 4px;
+  margin-left: 4px;
+  border-radius: 15px;
+  background: #e2e9f3;
+  color: #10489b;
+  font-size: 12px;
+}
+
+.ant-table-column-sorter {
+  display: none;
+}
