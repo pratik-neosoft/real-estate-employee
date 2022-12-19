@@ -1,16 +1,11 @@
 import { Button, DatePicker, Form, Input, Select } from "antd";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getFilterOption, parseUrlToJson } from "../../helper/helper";
 import "./index.css";
 import dayjs from "dayjs";
 
 export default function FilterPanel({ data, queryParams }) {
-  const [form] = Form.useForm();
-  const ActionTypes = getFilterOption(data, "actionType");
-  const ApplicationTypes = getFilterOption(data, "applicationType");
-  const navigate = useNavigate();
-
   const handleInitialValue = () => {
     const params = {
       ...parseUrlToJson(queryParams),
@@ -30,6 +25,28 @@ export default function FilterPanel({ data, queryParams }) {
 
     return params;
   };
+
+  const [form] = Form.useForm();
+  const ActionTypes = getFilterOption(data, "actionType");
+  const ApplicationTypes = getFilterOption(data, "applicationType");
+  const [searchParams, setsearchParams] = useState(
+    handleInitialValue(queryParams)
+  );
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const query = parseUrlToJson(queryParams);
+    const params = {
+      action_type: query?.action_type || undefined,
+      application_id: query?.application_id || undefined,
+      application_type: query?.application_type || undefined,
+      employee_name: query?.employee_name || undefined,
+      from_date: query?.from_date ? dayjs(query.from_date) : undefined,
+      to_date: query?.to_date ? dayjs(query.to_date) : undefined,
+    };
+
+    form.setFieldsValue(params);
+  }, [queryParams, form]);
 
   const onFinish = (values) => {
     let updateValues;
@@ -54,7 +71,7 @@ export default function FilterPanel({ data, queryParams }) {
       <Form
         form={form}
         layout="inline"
-        initialValues={handleInitialValue(queryParams)}
+        initialValues={searchParams}
         colon={false}
         onFinish={onFinish}
       >
