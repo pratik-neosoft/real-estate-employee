@@ -102,8 +102,7 @@ const columns = [
     width: "20%",
   },
   {
-    title: ({ sortColumns }) =>
-      TableHeaderColumn(sortColumns, "Action Details", "actionDetails"),
+    title: "Action Details",
     dataIndex: "actionDetails",
     render: (_, record) => (
       <div>
@@ -114,16 +113,6 @@ const columns = [
         )}
       </div>
     ),
-    sorter: (a, b) => {
-      if (a?.actionDetails && b?.actionDetails) {
-        return a.actionDetails.localeCompare(b.actionDetails);
-      } else if (a?.actionDetails) {
-        return -1;
-      } else if (b?.actionDetails) {
-        return 1;
-      }
-      return 0;
-    },
     width: "15%",
   },
   {
@@ -179,9 +168,9 @@ export default function EmployeLogs(props) {
         prevData.filter(
           (item) =>
             new Date(item.creationTimestamp).getTime() >=
-              new Date(query.from_date).getTime() &&
+              new Date(query.from_date).setUTCHours(0, 0, 0, 0) &&
             new Date(item.creationTimestamp).getTime() <=
-              new Date(query.to_date).getTime()
+              new Date(query.to_date).setUTCHours(23, 59, 59, 999)
         )
       );
     } else if (query.from_date) {
@@ -189,7 +178,7 @@ export default function EmployeLogs(props) {
         prevData.filter(
           (item) =>
             new Date(item.creationTimestamp).getTime() >=
-            new Date(query.from_date).getTime()
+            new Date(query.from_date).setUTCHours(0, 0, 0, 0)
         )
       );
     } else if (query.to_date) {
@@ -197,7 +186,7 @@ export default function EmployeLogs(props) {
         prevData.filter(
           (item) =>
             new Date(item.creationTimestamp).getTime() <=
-            new Date(query.to_date).getTime()
+            new Date(query.to_date).setUTCHours(23, 59, 59, 999)
         )
       );
     }

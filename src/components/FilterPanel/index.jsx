@@ -98,18 +98,10 @@ export default function FilterPanel({ data, queryParams }) {
           />
         </Form.Item>
         <Form.Item className="filter-form" name="from_date" label="From Date">
-          <DatePicker
-            style={{ width: 220 }}
-            showTime
-            format="YYYY-MM-DD HH:mm:ss"
-          />
+          <DatePicker style={{ width: 220 }} format="YYYY-MM-DD" />
         </Form.Item>
         <Form.Item className="filter-form" name="to_date" label="To Date">
-          <DatePicker
-            style={{ width: 220 }}
-            showTime
-            format="YYYY-MM-DD HH:mm:ss"
-          />
+          <DatePicker style={{ width: 220 }} format="YYYY-MM-DD" />
         </Form.Item>
         <Form.Item
           className="filter-form"
