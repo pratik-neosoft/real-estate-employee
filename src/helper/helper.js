@@ -2,7 +2,7 @@ import qs from 'qs'
 export const getFilterOption = (data, key) => {
   const tempArr = [];
   const Options = [];
-  data?.auditLog.forEach((item) => {
+  data?.auditLog?.forEach((item) => {
     if (!tempArr.includes(item[key])) {
       tempArr.push(item[key]);
     }

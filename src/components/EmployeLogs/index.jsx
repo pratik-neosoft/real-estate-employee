@@ -130,10 +130,10 @@ const columns = [
 
 export default function EmployeLogs(props) {
   const { data, queryParams } = props;
-  const [employeeData, setEmployeeData] = useState(data.auditLog);
+  const [employeeData, setEmployeeData] = useState(data?.auditLog);
 
   useEffect(() => {
-    setEmployeeData(data.auditLog);
+    setEmployeeData(data?.auditLog);
     const query = parseUrlToJson(queryParams);
     if (query.employee_name) {
       setEmployeeData((prevData) => {
