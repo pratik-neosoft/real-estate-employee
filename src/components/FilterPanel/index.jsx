@@ -84,7 +84,12 @@ export default function FilterPanel({ data, queryParams }) {
           name="action_type"
           label="Action Type"
         >
-          <Select style={{ width: 220 }} options={ActionTypes} allowClear />
+          <Select
+            style={{ width: 220 }}
+            options={ActionTypes}
+            allowClear
+            placeholder="Select Action Type"
+          />
         </Form.Item>
         <Form.Item
           className="filter-form"
@@ -95,13 +100,22 @@ export default function FilterPanel({ data, queryParams }) {
             style={{ width: 220 }}
             options={ApplicationTypes}
             allowClear
+            placeholder="Select Application Type"
           />
         </Form.Item>
         <Form.Item className="filter-form" name="from_date" label="From Date">
-          <DatePicker style={{ width: 220 }} format="YYYY-MM-DD" />
+          <DatePicker
+            style={{ width: 220 }}
+            format="YYYY-MM-DD"
+            placeholder="Select Date"
+          />
         </Form.Item>
         <Form.Item className="filter-form" name="to_date" label="To Date">
-          <DatePicker style={{ width: 220 }} format="YYYY-MM-DD" />
+          <DatePicker
+            style={{ width: 220 }}
+            format="YYYY-MM-DD"
+            placeholder="Select Date"
+          />
         </Form.Item>
         <Form.Item
           className="filter-form"
