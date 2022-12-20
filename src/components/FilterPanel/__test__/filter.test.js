@@ -19,16 +19,13 @@ const MockFilterPanel = () => {
 it("renders filter input", () => {
   render(<MockFilterPanel />);
   const inputEmployeeName = screen.getByPlaceholderText(/e.g. Admin.User/i);
-  const dateElement = screen.getAllByPlaceholderText(/Select Date/i);
-  const actionTypeEl = screen.getByPlaceholderText(/Select Action Type/i);
-  const applicationTypeEl = screen.getByPlaceholderText(
-    /Select Application Type/i
-  );
-
+  const dateElements = screen.getAllByPlaceholderText(/Select Date/i);
+  const dropdownElements = screen.getAllByRole("combobox");
+  const applicationId = screen.getByPlaceholderText("e.g. 219841/2021");
   expect(inputEmployeeName).toBeInTheDocument();
-  expect(dateElement.length).toBe(2);
-  expect(actionTypeEl).toBeInTheDocument();
-  expect(applicationTypeEl).toBeInTheDocument();
+  expect(dateElements.length).toBe(2);
+  expect(dropdownElements.length).toBe(2);
+  expect(applicationId).toBeInTheDocument();
 });
 
 it("should able to type on employee name input", () => {

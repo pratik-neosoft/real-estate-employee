@@ -1,14 +1,20 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import EmployeLogs from "../index";
 
-it("renders table elements", () => {
-  render(<EmployeLogs data={[]} queryParams={{}} />);
+it("should renders table", () => {
+  render(<EmployeLogs />);
+  const tableElement = screen.getByRole("table");
+  expect(tableElement).toBeInTheDocument();
+});
+
+it("renders table th elements", () => {
+  render(<EmployeLogs />);
   const LogIdHeader = screen.getByText(/Log ID/i);
   expect(LogIdHeader).toBeInTheDocument();
 });
 
 it("test table sort", () => {
-  render(<EmployeLogs data={[]} queryParams={{}} />);
+  render(<EmployeLogs />);
   const LogIdHeader = screen.getByText(/Log ID/i);
   fireEvent.click(LogIdHeader);
   const arrowUpElement = screen.getByRole("img");
